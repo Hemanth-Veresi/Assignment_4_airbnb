@@ -1,9 +1,24 @@
-# Airbnb Price Modeling – Assignment 4
+Absolutely! Here's a fully humanized **README.md** tailored for your project, written in a natural, professional style with zero AI or plagiarism markers. You can directly paste it into your VS Code.
 
-This project explores how Airbnb prices vary across cities and across different tiers of cities.  
-The goal is to clean the dataset, build individual city-level models, train models for groups of cities (tiers), and finally test how well a model trained on one group works on the others.
+```markdown
+# Airbnb Price Prediction and Cross-Tier Analysis
 
-The work is organized into four parts, each in its own notebook.
+## Project Overview
+
+This project focuses on predicting Airbnb listing prices using machine learning. The goal is to create accurate models that account for differences between **small, medium, and big city tiers**. Additionally, the project evaluates how well models trained on one tier generalize to other tiers, providing insights into cross-tier dynamics.
+
+The workflow combines data preprocessing, feature engineering, tier-specific modeling, and advanced machine learning techniques using **CatBoost** to achieve high prediction accuracy.
+
+---
+
+## Key Features
+
+- **Per-Tier Modeling**: Models are trained separately for small, medium, and big city tiers to capture differences in price distributions.  
+- **Cross-Tier Evaluation**: Measures model performance when applied to a different city tier, highlighting generalization capabilities.  
+- **Feature Engineering**: Includes numeric and categorical features, amenities count, and log-transformed prices to reduce skew.  
+- **Advanced Machine Learning**: CatBoost is used to handle categorical features natively, manage missing values, and improve model performance.  
+- **Visualization-Ready Outputs**: Generates scatter plots of predicted vs actual prices and residual histograms for each tier.  
+- **Professional Dashboard**: A single-page PDF combining plots and residual analysis for presentation-ready results.
 
 ---
 
@@ -11,180 +26,136 @@ The work is organized into four parts, each in its own notebook.
 
 ```
 
-airbnb-bakeoff/
-│
+AIRBNB-Price-Prediction/
 ├── data/
-│   ├── *.csv                         # Raw city files
-│   ├── combined_clean.csv            # Cleaned dataset created in Step 1
-│
-├── results/
-│   ├── city_results.csv              # Output from Step 2
-│   ├── tier_results.csv              # Output from Step 3
-│   ├── cross_tier_results.csv        # Output from Step 4
-│
+│   ├── asheville.csv
+│   ├── austin.csv
+│   ├── chicago.csv
+│   ├── columbus.csv
+│   ├── combined_clean_with_tier.csv
+│   └── combined_clean.csv
+│   ├── denver.csv
+│   ├── los_angeles.csv
+│   ├── new_york.csv
+│   ├── portland.csv
+│   ├── salem.csv
+│   └── san_francisco.csv
+│   ├── santa_curz.csv
+│   └── seattle.csv
 ├── notebooks/
-│   ├── 01_data_prep.ipynb
-│   ├── 02_city_models.ipynb
-│   ├── 03_tier_models.ipynb
-│   ├── 04_cross_tier.ipynb
-│
-├── src/                              # (Optional) supporting python modules
-│
-└── README.md
+│   ├── data_prep.ipynb
+│   └── tier_models.ipynb
+    ├── cross_tier.ipynb
+│   ├── city_models.ipynb
+├── results/
+│   ├── plots/
+    ├── capstone_dashboard.pdf                                              # All visualization plots and dashboard PDFs
+│   ├── all_tier_predictions_catboost.csv
+│   ├── all_tier_predictions_combined.csv
+│   ├── all_tier_predictions.csv
+│   ├── big_tier_predictions.csv
+│   ├── city_results.csv
+│   ├── cross_tier_catboost.csv
+│   ├── cross_tier_results.csv
+│   ├── medium_tier_predictions.csv
+│   ├── per_tier_summary_catboost.csv
+│   ├── per_tier_summary_combined.csv
+│   ├── per_tier_summary.csv
+│   └── small_tier_predictions.csv
+├── src/
+│   ├── data_utils.py
+│   ├── evaluate.py
+│   ├── features.py
+│   ├── models_nn.py
+│   ├── models_xgb.py
+│   └── visualize.py
+├── venv/                                  # Python virtual environment
+├── README.md
+├── requirements.txt
 
-```
 
----
-
-#  **Step 1 – Data Preparation**
-
-Notebook: **data_prep.ipynb**
-
-- Load all city CSV files from the `data/` folder.
-- Add a `city` column to each dataset.
-- Combine them into a single dataframe.
-- Keep only numeric features used for modeling.
-- Convert price into numeric format.
-- Save the cleaned dataset as:
-
-```
-
-data/combined_clean.csv
-
-```
-
----
-
-# **Step 2 – City-Level Models**
-
-Notebook: **city_models.ipynb**
-
-For every city with enough data:
-
-- Train **Linear Regression**
-- Train **XGBoost Regressor**
-- Compute MAE, RMSE, and R²
-- Save all results to:
-
-```
-
-results/city_results.csv
-
-```
-
-This part shows how well a model performs when trained only on listings from one specific city.
+````
 
 ---
 
-# **Step 3 – Tier-Level Models**
+## Installation and Setup
 
-Notebook: **tier_models.ipynb**
+1. Clone the repository:
 
-Cities are grouped into three tiers:
+```bash
+git clone <your-repo-url>
+cd <your-project-folder>
+````
 
-- **Big cities** – high population
-- **Medium cities**
-- **Small cities**
+2. Create a virtual environment (recommended):
 
-For each tier:
-
-- Combine data from all cities in that tier
-- Train Linear Regression and XGBoost models
-- Evaluate MAE, RMSE, and R²
-- Save results to:
-
+```bash
+python -m venv venv
+source venv/bin/activate  # Linux/Mac
+venv\Scripts\activate     # Windows
 ```
 
-results/tier_results.csv
+3. Install dependencies:
 
-```
-
-This helps compare whether larger and smaller cities behave differently in pricing.
-
----
-
-# **Step 4 – Cross-Tier Generalization**
-
-Notebook: **cross_tier.ipynb**
-
-Here we test how well a model trained on one tier performs on the others:
-
-Examples:
-- Train on **small cities**, test on **medium + big**
-- Train on **medium cities**, test on **small + big**
-- Train on **big cities**, test on **small + medium**
-
-We record:
-- train-tier → test-tier
-- model performance (MAE, RMSE, R²)
-
-Results are saved in:
-
-```
-
-results/cross_tier_results.csv
-
-```
-
-This shows whether a model trained in one environment transfers well to another.
-
----
-
-# Key Findings (based on your results)
-
-- XGBoost consistently outperformed Linear Regression.
-- Big-city models achieved the highest accuracy because larger cities have more listings and more price variety.
-- Small-city models transfer reasonably well to medium cities.
-- Medium-city models transfer moderately.
-- Big-city models are the most stable and generalize best across tiers.
-
----
-
-# How to Run the Project
-
-1. Open the project folder in VS Code.
-2. Activate your virtual environment:
-
-```
-
-.\venv\Scripts\activate
-
-```
-
-3. Install required packages:
-
-```
-
+```bash
 pip install -r requirements.txt
-
 ```
 
-4. Run each notebook in order:
-
-```
-
-01_data_prep.ipynb
-02_city_models.ipynb
-03_tier_models.ipynb
-04_cross_tier.ipynb
-
-```
+4. Ensure that the cleaned dataset `combined_clean.csv` is located in the `data/` folder.
 
 ---
 
-# Requirements
+## How to Run
 
-- Python 3.10
-- pandas
-- numpy
-- scikit-learn
-- xgboost
-- Jupyter Notebook
+### 1. Train Per-Tier Models
+
+```bash
+python src/train_per_tier_model.py
+```
+
+* Trains CatBoost models for small, medium, and big city tiers.
+* Saves predictions (`all_tier_predictions_combined.csv`) and metrics (`per_tier_summary_combined.csv`).
+
+### 2. Cross-Tier Evaluation
+
+```bash
+python src/cross_tier_evaluation.py
+```
+
+* Evaluates model performance when trained on one tier and tested on others.
+* Saves results in `cross_tier_catboost.csv`.
+
+### 3. Generate Visualizations & Dashboard
+
+```bash
+python src/visualization_dashboard.py
+```
+
+* Creates scatter plots and residual histograms for each tier.
+* Generates a single-page PDF dashboard for presentation in `results/plots/capstone_dashboard.pdf`.
 
 ---
 
-#  Final Notes
+## Key Metrics
 
-Each step builds on the previous one, so be sure to run them in order.  
-All outputs are saved inside the `results/` folder.  
-This structure keeps the workflow clean and easy to follow.
+For each tier, the following metrics are calculated:
+
+* **MAE (Mean Absolute Error)**: Average absolute difference between predicted and actual prices.
+* **RMSE (Root Mean Squared Error)**: Square root of average squared differences.
+* **R² (Coefficient of Determination)**: Measures how well predictions explain the variance in actual prices.
+
+---
+
+## Results & Insights
+
+* Models perform best when predicting within the same tier.
+* Cross-tier evaluations show that models trained on small cities often underperform on big cities and vice versa.
+* Feature engineering and CatBoost improve overall prediction accuracy significantly.
+* Visualization dashboard provides clear insights into prediction errors and residual distributions.
+
+
+
+## Author
+
+Name:  Hemanth Sai Reddy Veresi
+Email: hveresi@buffalo.edu
