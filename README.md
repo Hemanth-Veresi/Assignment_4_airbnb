@@ -83,8 +83,8 @@ AIRBNB-Price-Prediction/
 1. Clone the repository:
 
 ```bash
-git clone <your-repo-url>
-cd <your-project-folder>
+git clone "https://github.com/Hemanth-Veresi/Assignment_4_airbnb.git"
+
 ````
 
 2. Create a virtual environment (recommended):
@@ -157,5 +157,5 @@ For each tier, the following metrics are calculated:
 
 ## Author
 
-Name:  Hemanth Sai Reddy Veresi
-Email: hveresi@buffalo.edu
+* Name:  Hemanth Sai Reddy Veresi
+* Email: hveresi@buffalo.edu
